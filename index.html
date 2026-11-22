@@ -11812,28 +11812,6 @@ var FolderCog = createLucideIcon("folder-cog", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
-var Globe = createLucideIcon("globe", [
-	["circle", {
-		cx: "12",
-		cy: "12",
-		r: "10",
-		key: "1mglay"
-	}],
-	["path", {
-		d: "M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20",
-		key: "13o1zl"
-	}],
-	["path", {
-		d: "M2 12h20",
-		key: "9i4pu4"
-	}]
-]);
-/**
-* @license lucide-react v0.546.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
 var HardDriveDownload = createLucideIcon("hard-drive-download", [
 	["path", {
 		d: "M12 2v8",
@@ -13930,7 +13908,7 @@ var PdfGeneratorView = ({ globalDate, onGeneratePdf, onBackHome }) => {
 		})]
 	});
 };
-var SystemView = ({ db, globalDate, onExportJson, onImportJson, onDownloadStandaloneHtml, onResetDay, onResetAll, onBackHome }) => {
+var SystemView = ({ db, globalDate, onExportJson, onImportJson, onResetDay, onResetAll, onBackHome }) => {
 	const fileInputRef = import_react.useRef(null);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "space-y-4",
@@ -14016,25 +13994,6 @@ var SystemView = ({ db, globalDate, onExportJson, onImportJson, onDownloadStanda
 							}
 						})
 					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-						type: "button",
-						onClick: onDownloadStandaloneHtml,
-						className: "w-full min-h-[44px] px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold inline-flex items-center justify-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Globe, { className: "w-4 h-4" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Download Standalone index.html (for GitHub Pages)" })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-						className: "text-xs text-slate-500 dark:text-slate-400",
-						children: [
-							"Downloads a single self-contained ",
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
-								className: "font-mono",
-								children: "index.html"
-							}),
-							" file you can upload directly to a GitHub repository with GitHub Pages enabled."
-						]
-					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200 dark:border-slate-800",
@@ -16192,32 +16151,6 @@ function App() {
 		};
 		reader.readAsText(file);
 	};
-	const handleDownloadStandaloneHtml = async () => {
-		try {
-			const response = await fetch("./expense-tracker-standalone.html", { cache: "no-store" });
-			if (!response.ok) {
-				showToast("Standalone HTML bundle not found at this URL");
-				return;
-			}
-			const htmlText = await response.text();
-			if (!htmlText.toLowerCase().includes("<html") || !htmlText.includes("id=\"root\"")) {
-				showToast("Standalone HTML bundle unavailable");
-				return;
-			}
-			const blob = new Blob([htmlText], { type: "text/html;charset=utf-8" });
-			const url = URL.createObjectURL(blob);
-			const anchor = document.createElement("a");
-			anchor.href = url;
-			anchor.download = "index.html";
-			document.body.appendChild(anchor);
-			anchor.click();
-			anchor.remove();
-			window.setTimeout(() => URL.revokeObjectURL(url), 1e3);
-			showToast("Downloaded standalone index.html");
-		} catch {
-			showToast("Failed to download standalone HTML");
-		}
-	};
 	const handleResetDay = () => {
 		setConfirmState({
 			open: true,
@@ -16447,9 +16380,6 @@ function App() {
 						globalDate,
 						onExportJson: handleExportJson,
 						onImportJson: handleImportJson,
-						onDownloadStandaloneHtml: () => {
-							handleDownloadStandaloneHtml();
-						},
 						onResetDay: handleResetDay,
 						onResetAll: handleResetAll,
 						onBackHome: () => setActiveView("home-view")
